@@ -17,6 +17,9 @@ class UsersTable extends Table
         $this->hasMany('Accounts', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasMany('Ledgers', [
+            'foreignKey' => 'user_id'
+        ]);
     }
 
     public function validationDefault(Validator $validator)
