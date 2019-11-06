@@ -14,13 +14,13 @@
             <?= $account->name ?>
         </td>
         <td>
-            <?= $this->Html->link($account->bank_number, ['action' => 'view', $account->bank_number]) ?>
+            <?= $this->Html->link($account->bank_number, ['action' => 'view', $account->id]) ?>
         </td>
         <td>
             &euro; <?= $account->balance/100 ?>
         </td>
         <td>
-            <?= $this->Html->link('Edit', ['action' => 'edit', $account->bank_number]) ?>
+            <?= $this->Html->link('Edit', ['action' => 'edit', $account->id]) ?>
         </td>
     </tr>
     <?php endforeach; ?>

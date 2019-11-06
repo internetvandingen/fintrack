@@ -8,6 +8,13 @@ class AccountsTable extends Table
 {
     public function initialize(array $config)
     {
-        $this->belongsToMany('Transactions');
+        parent::initialize($config);
+        $this->setTable('accounts');
+        $this->setDisplayField('id');
+        $this->setPrimaryKey('id');
+        $this->addBehavior('Timestamp');
+        $this->hasMany('Transactions', [
+            'foreignKey' => 'account_id'
+        ]);
     }
 }
