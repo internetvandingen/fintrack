@@ -12,6 +12,9 @@ class LedgersTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->hasMany('Transactions', [
+            'foreignKey' => 'ledger_id'
+        ]);
     }
 
     public function validationDefault(Validator $validator)

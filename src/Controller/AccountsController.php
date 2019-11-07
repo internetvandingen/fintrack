@@ -7,6 +7,11 @@ use App\Controller\AppController;
 
 class AccountsController extends AppController
 {
+    public function initialize()
+    {
+        $this->loadComponent('Paginator');
+    }
+
     public function index()
     {
         $this->loadComponent('Paginator');
@@ -18,8 +23,9 @@ class AccountsController extends AppController
     public function view($bank_number = null)
     {
         $this->loadModel('Transactions');
-        $transactions = $this->Transactions->find('all');
-        $this->set('transactions', $transactions);
+        $transactions = $this->paginate($this->Transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
     }
 
     public function add()

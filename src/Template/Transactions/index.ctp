@@ -2,7 +2,7 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Transaction'), ['controller' => 'Transactions', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('New Transaction'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="transactions index large-9 medium-8 columns content">
@@ -35,10 +35,10 @@
                 <td><?= h($transaction->created) ?></td>
                 <td><?= h($transaction->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Transactions', 'action' => 'view', $transaction->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Transactions', 'action' => 'edit', $transaction->id]) ?>
+                    <?= $this->Html->link(__('View'), ['action' => 'view', $transaction->id]) ?>
+                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $transaction->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), 
-                                              ['controller' => 'Transactions', 'action' => 'delete', $transaction->id], 
+                                              ['action' => 'delete', $transaction->id], 
                                               ['confirm' => __('Are you sure you want to delete # {0}?', $transaction->id)]) ?>
                 </td>
             </tr>
