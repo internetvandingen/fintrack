@@ -8,7 +8,6 @@ class LedgersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        //$this->Auth->allow(['logout', 'add']);
     }
 
     public function index()
@@ -72,7 +71,27 @@ class LedgersController extends AppController
 
     public function isAuthorized($user)
     {
-        return true;
+        if ($user['id'] === 1){
+             return true;
+        }
+
+        $action = $this->request->getParam('action');
+        if (in_array($action, ['index', 'add'])) {
+            // index and add are always allowed for logged in users
+            return true;
+        } else if (in_array($action, ['edit', 'delete'])){
+            // require id
+            $id = $this->request->getParam('pass.0');
+            if (!$id) {
+                return false;
+            }
+            $logged_id = $this->Auth->user('id');
+            if ($logged_id === $this->Ledgers->get($id)->user_id){
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

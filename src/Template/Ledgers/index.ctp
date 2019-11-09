@@ -36,7 +36,6 @@
                 <td><?= h($ledger->created) ?></td>
                 <td><?= h($ledger->modified) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $ledger->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $ledger->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $ledger->id], ['confirm' => __('Are you sure you want to delete # {0}?', $ledger->id)]) ?>
                 </td>

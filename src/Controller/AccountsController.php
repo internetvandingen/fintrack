@@ -1,5 +1,4 @@
 <?php
-// src/Controller/AccountsController.php
 
 namespace App\Controller;
 
@@ -9,14 +8,14 @@ class AccountsController extends AppController
 {
     public function initialize()
     {
+        parent::initialize();
         $this->loadComponent('Paginator');
     }
 
     public function index()
     {
-        $this->loadComponent('Paginator');
-        $this->loadComponent('Flash');
-        $accounts = $this->Paginator->paginate($this->Accounts->find());
+        $accounts = $this->Accounts;
+        $accounts = $this->Paginator->paginate($accounts);
         $this->set(compact('accounts'));
     }
 
@@ -61,21 +60,28 @@ class AccountsController extends AppController
 
     public function isAuthorized($user)
     {
+        if ($user['id'] === 1){
+             return true;
+        }
+
         $action = $this->request->getParam('action');
-        // The add action is always allowed to logged in users.
-        if (in_array($action, ['add'])) {
+        // The index and add action are always allowed to logged in users.
+        if (in_array($action, ['index', 'add'])){
             return true;
         }
-    
-        // All other actions require an id.
-        $id = $this->request->getParam('pass.0');
-        if (!$id) {
-            return false;
+        elseif (in_array($action, ['view', 'edit'])) {
+            // require an id.
+            $id = $this->request->getParam('pass.0');
+            if (!$id) {
+                return false;
+            }
+            // Check that the account belongs to the current user.
+            $logged_id = $this->Auth->user('id');
+            if ($logged_id === $this->Accounts->get($id)->user_id){
+                return true;
+            }
         }
-    
-        // Check that the account belongs to the current user.
-        $account = $this->Accounts->findById($id)->first();
-    
-        return $account->user_id === $user['id'];
+
+        return false;
     }
 }

@@ -8,7 +8,9 @@ class TransactionsController extends AppController
 {
     public function initialize()
     {
+        parent::initialize();
         $this->loadComponent('Flash');
+        $this->loadModel('Accounts');
     }
 
     public function index()
@@ -16,12 +18,6 @@ class TransactionsController extends AppController
         $this->loadComponent('Paginator');
         $transactions = $this->Paginator->paginate($this->Transactions);
         $this->set(compact('transactions'));
-    }
-
-    public function view($id = null)
-    {
-        $transaction = $this->Transactions->findById($id)->firstOrFail();
-        $this->set('transaction', $transaction);
     }
 
     public function add()
@@ -38,6 +34,12 @@ class TransactionsController extends AppController
             }
             $this->Flash->error(__('Unable to add transaction.'));
         }
+        $this->set('transaction', $transaction);
+    }
+
+    public function view($id = null)
+    {
+        $transaction = $this->Transactions->findById($id)->firstOrFail();
         $this->set('transaction', $transaction);
     }
 
@@ -70,21 +72,29 @@ class TransactionsController extends AppController
 
     public function isAuthorized($user)
     {
+        if ($user['id'] === 1){
+             return true;
+        }
+
         $action = $this->request->getParam('action');
-        // The add action is always allowed to logged in users.
-        if (in_array($action, ['add'])) {
+        if (in_array($action, ['index', 'add'])) {
+            // index and add are always allowed for logged in users
             return true;
+        } else if (in_array($action, ['view', 'edit', 'delete'])){
+            // require id
+            $id = $this->request->getParam('pass.0');
+            if (!$id) {
+                return false;
+            }
+            $logged_id = $this->Auth->user('id');
+            $account_id = $this->Transactions->get($id)->account_id;
+            $user_id = $this->Accounts->get($account_id)->user_id;
+            if ($logged_id === $user_id){
+                return true;
+            }
         }
-    
-        // All other actions require an id.
-        $id = $this->request->getParam('pass.0');
-        if (!$id) {
-            return false;
-        }
-    
-        // Check that the transaction belongs to the current user.
-        $transaction = $this->Transactions->findById($id)->first();
-        $account = $this->Accounts->findById($transaction->account_id)->first();
-        return $account->user_id === $user['id'];
+
+        return false;
     }
+
 }
