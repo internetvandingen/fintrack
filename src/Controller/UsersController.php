@@ -10,23 +10,30 @@ class UsersController extends AppController
         parent::initialize();
         // pages accessible without authentication (login)
         $this->Auth->allow(['login', 'logout', 'add']);
+        $this->loadModel('Accounts');
     }
 
-    public function index()
+    public function all()
     {
         $users = $this->paginate($this->Users);
-
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
     }
 
+    public function index()
+    {
+        $logged_id = $this->Auth->user('id');
+        $user = $this->Users->get($logged_id);
+        $user->accounts = $this->Accounts->find()->where(['user_id' => $logged_id]);
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+    }
+
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Accounts']
-        ]);
-
-        $this->set('user', $user);
+        $user = $this->Users->get($id);
+        $user->accounts = $this->Accounts->find()->where(['user_id' => $id]);
+        $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
 
@@ -104,7 +111,9 @@ class UsersController extends AppController
         }
 
         $action = $this->request->getParam('action');
-        if (in_array($action, ['edit', 'view', 'delete'])) {
+        if ($action === 'index') {
+            return true;
+        } else if (in_array($action, ['edit', 'view', 'delete'])) {
             // view, edit and delete require id
             $id = $this->request->getParam('pass.0');
             if (!$id) {

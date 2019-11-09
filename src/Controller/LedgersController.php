@@ -10,10 +10,18 @@ class LedgersController extends AppController
         parent::initialize();
     }
 
-    public function index()
+    public function all()
     {
         $ledgers = $this->paginate($this->Ledgers);
+        $this->set(compact('ledgers'));
+        $this->set('_serialize', ['ledgers']);
+    }
 
+    public function index()
+    {
+        $logged_id = $this->Auth->user('id');
+        $ledgers = $this->Ledgers->findByUser_id($logged_id);
+        $ledgers = $this->paginate($ledgers);
         $this->set(compact('ledgers'));
         $this->set('_serialize', ['ledgers']);
     }

@@ -12,17 +12,28 @@ class AccountsController extends AppController
         $this->loadComponent('Paginator');
     }
 
-    public function index()
+    public function all()
     {
         $accounts = $this->Accounts;
         $accounts = $this->Paginator->paginate($accounts);
         $this->set(compact('accounts'));
+        $this->set('_serialize', ['accounts']);
     }
 
-    public function view($bank_number = null)
+    public function index()
+    {
+        $logged_id = $this->Auth->user('id');
+        $accounts = $this->Accounts->find()->where(['user_id' => $logged_id]);
+        $accounts = $this->Paginator->paginate($accounts);
+        $this->set(compact('accounts'));
+        $this->set('_serialize', ['accounts']);
+    }
+
+    public function view($id = null)
     {
         $this->loadModel('Transactions');
-        $transactions = $this->paginate($this->Transactions);
+        $transactions = $this->Transactions->find()->where(['account_id' => $id]);
+        $transactions = $this->paginate($transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
     }

@@ -13,11 +13,24 @@ class TransactionsController extends AppController
         $this->loadModel('Accounts');
     }
 
-    public function index()
+    public function all()
     {
         $this->loadComponent('Paginator');
         $transactions = $this->Paginator->paginate($this->Transactions);
         $this->set(compact('transactions'));
+    }
+
+    public function index()
+    {
+        $this->loadComponent('Paginator');
+        $logged_id = $this->Auth->user('id');
+        // get a list of account id's
+        $accounts = $this->Accounts->find()->where(['user_id' => $logged_id])->extract('id')->toList();
+        // get associated transactions
+        $transactions = $this->Transactions->find()->where(['account_id IN' => $accounts]);
+        $transactions = $this->Paginator->paginate($transactions);
+        $this->set(compact('transactions'));
+        $this->set('_serialize', ['transactions']);
     }
 
     public function add()
