@@ -47,6 +47,20 @@ class TransactionsController extends AppController
             }
             $this->Flash->error(__('Unable to add transaction.'));
         }
+
+        $this->loadModel('Ledgers');
+        $ledgers = $this->Ledgers->findByUser_id($this->Auth->user('id'));
+        $transaction->ledger_options = [];
+        foreach ($ledgers as $ledger){
+           $transaction->ledger_options[$ledger['id']] = $ledger['name'];
+        }
+
+        $accounts = $this->Accounts->findByUser_id($this->Auth->user('id'))->toList();
+        $transaction->account_options = [];
+        foreach($accounts as $account){
+            $transaction->account_options[$account['id']] = $account['name'];
+        }
+
         $this->set('transaction', $transaction);
     }
 
@@ -67,6 +81,15 @@ class TransactionsController extends AppController
             }
             $this->Flash->error(__('Unable to update the transaction.'));
         }
+
+        $this->loadModel('Ledgers');
+        $user_id = $this->Accounts->get($transaction->account_id)->user_id;
+        $ledgers = $this->Ledgers->findByUser_id($user_id);
+        $transaction->ledger_options = [];
+        foreach ($ledgers as $ledger){
+           $transaction->ledger_options[$ledger['id']] = $ledger['name'];
+        }
+
         $this->set('transaction', $transaction);
     }
 
