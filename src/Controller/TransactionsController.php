@@ -64,6 +64,28 @@ class TransactionsController extends AppController
         $this->set('transaction', $transaction);
     }
 
+    public function upload()
+    {
+        $accounts = $this->Accounts->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
+        $this->set('accounts', $accounts);
+        $data = $this->request->getData();
+        if ($this->request->is('post')) {
+            // parse data
+            $parsed = $this->Transactions->parse($data['transactions'], 'ing', $data['account_id']);
+            if ($parsed){
+                $entities = $this->Transactions->newEntities($parsed);
+                $result = $this->Transactions->saveMany($entities);
+                if ($result){
+                    $this->Flash->success(__('New transactions succesfully saved.'));
+                    return $this->redirect(['action' => 'index']);
+                }
+            }
+            $this->Flash->error(__('Unable to add transactions.'));
+        } else {
+          $this->set('transactions', "nothing");
+        }
+    }
+
     public function view($id = null)
     {
         $transaction = $this->Transactions->findById($id)->firstOrFail();
@@ -113,8 +135,8 @@ class TransactionsController extends AppController
         }
 
         $action = $this->request->getParam('action');
-        if (in_array($action, ['index', 'add'])) {
-            // index and add are always allowed for logged in users
+        if (in_array($action, ['index', 'add', 'upload'])) {
+            // index, add and upload are always allowed for logged in users
             return true;
         } else if (in_array($action, ['view', 'edit', 'delete'])){
             // require id

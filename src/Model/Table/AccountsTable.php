@@ -10,8 +10,8 @@ class AccountsTable extends Table
     {
         parent::initialize($config);
         $this->setTable('accounts');
-        $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        $this->setDisplayField('name');
         $this->addBehavior('Timestamp');
         $this->hasMany('Transactions', [
             'foreignKey' => 'account_id'

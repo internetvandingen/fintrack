@@ -13,4 +13,29 @@ class TransactionsTable extends Table
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
     }
+
+    public function parse($transactions, $bank, $account_id)
+    {
+        switch ($bank) {
+            case "ing":
+                $parsed = [];
+                foreach ($transactions as $i => $entry){
+                    $parsed[$i] = [];
+                    $parsed[$i] = [
+                                   'account_id' => $account_id,
+                                   'amount' => ($entry['Af Bij']=='Af' ? '-' : '' ) . str_replace(',', '', $entry['Bedrag (EUR)']),
+                                   'counter_account' => $entry['Tegenrekening'],
+                                   'date' => substr($entry['Datum'], 0,4) . '-' . substr($entry['Datum'], 4, 2) . '-' . substr($entry['Datum'],   6,2),
+                                   'ledger_id' => 0,
+                                   'description' => $entry['Naam / Omschrijving'] . ' ' . $entry['MutatieSoort'] . ' ' . $entry['Mededelingen']
+                                   ];
+                }
+                break;
+            default:
+                $parsed = false;
+                break;
+        }
+        return $parsed;
+    }
+
 }

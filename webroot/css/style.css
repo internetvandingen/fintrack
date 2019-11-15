@@ -522,3 +522,9 @@ table td {
     vertical-align: top;
     word-break: break-all;
 }
+
+div.transactions table td:nth-child(7) {
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    overflow: hidden;
+}
