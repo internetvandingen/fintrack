@@ -19,10 +19,14 @@ window.onload = function() {
                         }
     });
   });
+
+  $('select[name="account_id"]').on("change", function(){
+    let bank = $(this).find(":selected").text().match(/\([^\(]+\)$/)[0].slice(1,-1);
+    $('select[name="bank"]').val(bank);
+  });
 }
 
 function displayHTMLTable(results){
-
   var table = "<table class='table'>";
   var data = results.data;
   var headers = results.meta.fields;

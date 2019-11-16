@@ -25,8 +25,8 @@
 <?php
     echo $this->Form->create();
     echo '<div id="parsed_csv_list"></div>';
-    echo $this->Form->control('bank', ['options'=>['ing'=>'ING']]);
     echo $this->Form->control('account_id', ['options'=>$accounts]);
+    echo $this->Form->control('bank', ['options'=>['ING'=>'ING', 'ASN'=>'ASN']]);
     echo $this->Form->button(__('Save Transactions'));
     echo $this->Form->end();
 ?>

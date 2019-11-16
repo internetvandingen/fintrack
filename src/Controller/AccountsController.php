@@ -42,7 +42,11 @@ class AccountsController extends AppController
     {
         $account = $this->Accounts->newEntity();
         if ($this->request->is('post')) {
-            $account = $this->Accounts->patchEntity($account, $this->request->getData());
+            $data = $this->request->getData();
+            $data["name"] = $data["name"] . " (" . $data["bank_name"] . ")";
+            unset($data["bank_name"]);
+
+            $account = $this->Accounts->patchEntity($account, $data);
 
             $account->user_id = $this->Auth->user('id');
 
@@ -52,6 +56,7 @@ class AccountsController extends AppController
             }
             $this->Flash->error(__('Unable to add account.'));
         }
+        $account["name"] = preg_replace("/ \([^\(]+\)$/", "", $account["name"]);
         $this->set('account', $account);
     }
 
@@ -59,13 +64,18 @@ class AccountsController extends AppController
     {
         $account = $this->Accounts->findById($id)->firstOrFail();
         if ($this->request->is(['post', 'put'])) {
-            $this->Accounts->patchEntity($account, $this->request->getData(), ['accessibleFields' => ['user_id' => false]]);
+            $data = $this->request->getData();
+            $data["name"] = $data["name"] . " (" . $data["bank_name"] . ")";
+            unset($data["bank_name"]);
+
+            $this->Accounts->patchEntity($account, $data, ['accessibleFields' => ['user_id' => false]]);
             if ($this->Accounts->save($account)) {
                 $this->Flash->success(__('Your account has been updated.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to update your account.'));
         }
+        $account["name"] = preg_replace("/ \([^\(]+\)$/", "", $account["name"]);
         $this->set('account', $account);
     }
 

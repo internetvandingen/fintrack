@@ -17,7 +17,7 @@ class TransactionsTable extends Table
     public function parse($transactions, $bank, $account_id)
     {
         switch ($bank) {
-            case "ing":
+            case "ING":
                 $parsed = [];
                 foreach ($transactions as $i => $entry){
                     $parsed[$i] = [];

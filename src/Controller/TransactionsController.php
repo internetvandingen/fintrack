@@ -71,7 +71,7 @@ class TransactionsController extends AppController
         $data = $this->request->getData();
         if ($this->request->is('post')) {
             // parse data
-            $parsed = $this->Transactions->parse($data['transactions'], 'ing', $data['account_id']);
+            $parsed = $this->Transactions->parse($data['transactions'], $data['bank'], $data['account_id']);
             if ($parsed){
                 $entities = $this->Transactions->newEntities($parsed);
                 $result = $this->Transactions->saveMany($entities);
@@ -81,8 +81,6 @@ class TransactionsController extends AppController
                 }
             }
             $this->Flash->error(__('Unable to add transactions.'));
-        } else {
-          $this->set('transactions', "nothing");
         }
     }
 
