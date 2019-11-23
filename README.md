@@ -29,7 +29,7 @@ Search transaction | User exists | Result of search is shown | Wants to search f
 - [x] Authentication (login/logout)
 - [x] Authorization
 - [x] Upload csv
-- [ ] Assign ledgers per transactions
+- [x] Assign ledgers per transactions
 - [ ] Sidebars and menu
   - [ ] Users
   - [ ] Accounts

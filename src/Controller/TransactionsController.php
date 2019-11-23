@@ -49,17 +49,8 @@ class TransactionsController extends AppController
         }
 
         $this->loadModel('Ledgers');
-        $ledgers = $this->Ledgers->findByUser_id($this->Auth->user('id'));
-        $transaction->ledger_options = [];
-        foreach ($ledgers as $ledger){
-           $transaction->ledger_options[$ledger['id']] = $ledger['name'];
-        }
-
-        $accounts = $this->Accounts->findByUser_id($this->Auth->user('id'))->toList();
-        $transaction->account_options = [];
-        foreach($accounts as $account){
-            $transaction->account_options[$account['id']] = $account['name'];
-        }
+        $transaction->ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
+        $transaction->account_options = $this->Accounts->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
 
         $this->set('transaction', $transaction);
     }
@@ -104,11 +95,7 @@ class TransactionsController extends AppController
 
         $this->loadModel('Ledgers');
         $user_id = $this->Accounts->get($transaction->account_id)->user_id;
-        $ledgers = $this->Ledgers->findByUser_id($user_id);
-        $transaction->ledger_options = [];
-        foreach ($ledgers as $ledger){
-           $transaction->ledger_options[$ledger['id']] = $ledger['name'];
-        }
+        $transaction->ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
 
         $this->set('transaction', $transaction);
     }
@@ -126,6 +113,35 @@ class TransactionsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
+    public function assign()
+    {
+        // see overview of accounts and a count of how many unassigned transactions they have
+        // show a list of transactions that have unassigned ledgers for each account
+        $accounts = $this->Accounts->findByUser_id($this->Auth->user('id'))->contain('Transactions', function ($q) {
+            return $q->where(['Transactions.ledger_id' => '0']);
+        });
+        $this->set('accounts', $accounts);
+
+        $this->loadModel('Ledgers');
+        $ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
+        $this->set('ledger_options', $ledger_options);
+
+        // POST request of changed ledgers
+        if ($this->request->is(['post', 'put'])) {
+            $form_data = $this->request->getData();
+            foreach ($accounts as $account){
+                $original_transactions = $account['transactions'];
+                $form_transactions = $form_data[$account['id']];
+                if (!is_null($form_transactions)){
+                    $patched = $this->Transactions->patchEntities($original_transactions, $form_transactions, ['accessibleFields' => ['account_id' => false]]);
+                    $this->Transactions->saveMany($patched);
+                }
+            }
+            $this->Flash->success(__('The transactions have been updated successfully.'));
+            return $this->redirect(['action' => 'index']);
+        }
+    }
+
     public function isAuthorized($user)
     {
         if ($user['id'] === 1){
@@ -133,8 +149,8 @@ class TransactionsController extends AppController
         }
 
         $action = $this->request->getParam('action');
-        if (in_array($action, ['index', 'add', 'upload'])) {
-            // index, add and upload are always allowed for logged in users
+        if (in_array($action, ['index', 'add', 'upload', 'assign'])) {
+            // These actions are always allowed for logged in users
             return true;
         } else if (in_array($action, ['view', 'edit', 'delete'])){
             // require id

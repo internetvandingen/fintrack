@@ -8,8 +8,10 @@
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('Edit Transaction'), ['action' => 'edit', $transaction->id]) ?> </li>
-        <li><?= $this->Html->link(__('List Transactions'), ['action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('List transactions'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New transaction'), ['action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('Upload transactions'), ['action' => 'upload']) ?></li>
+        <li><?= $this->Html->link(__('Assign ledgers'), ['action' => 'assign']) ?></li>
     </ul>
 </nav>
 <div class="users view large-9 medium-8 columns content">
@@ -41,7 +43,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Description') ?></th>
-            <td><?= h($transaction->description) ?></td>
+            <td class='overflow'><?= h($transaction->description) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>

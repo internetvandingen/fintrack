@@ -9,8 +9,8 @@ class LedgersTable extends Table
     public function initialize(array $config)
     {
         $this->setTable('ledgers');
-        $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+        $this->setDisplayField('name');
         $this->addBehavior('Timestamp');
         $this->hasMany('Transactions', [
             'foreignKey' => 'ledger_id'

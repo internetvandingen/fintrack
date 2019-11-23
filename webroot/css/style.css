@@ -523,8 +523,14 @@ table td {
     word-break: break-all;
 }
 
-div.transactions table td:nth-child(7) {
+
+/* User defined */
+td.overflow {
     text-overflow:ellipsis;
     white-space:nowrap;
     overflow: hidden;
+}
+
+.hidden {
+    display:none;
 }
