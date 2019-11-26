@@ -3,16 +3,6 @@
 <?= $this->Html->script('csv'); ?>
 <?= $this->Html->css('transactions'); ?>
 
-<?php ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List transactions'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New transaction'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('Upload transactions'), ['action' => 'upload']) ?></li>
-        <li><?= $this->Html->link(__('Assign ledgers'), ['action' => 'assign']) ?></li>
-    </ul>
-</nav>
 <div class="transactions index large-9 medium-8 columns content">
   <form class="form-inline">
     <div class="form-group">

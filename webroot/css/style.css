@@ -526,9 +526,15 @@ table td {
 
 /* User defined */
 td.overflow {
-    text-overflow:ellipsis;
     white-space:nowrap;
     overflow: hidden;
+    text-overflow:ellipsis;
+}
+
+td.overflow:hover {
+    white-space:initial;
+    overflow: initial;
+    text-overflow:initial;
 }
 
 .hidden {

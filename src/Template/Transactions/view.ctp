@@ -1,19 +1,4 @@
-<?php
-/**
-  * @var \App\View\AppView $this
-  * @var \App\Model\Entity\User $user
-  */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Transaction'), ['action' => 'edit', $transaction->id]) ?> </li>
-        <li><?= $this->Html->link(__('List transactions'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New transaction'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('Upload transactions'), ['action' => 'upload']) ?></li>
-        <li><?= $this->Html->link(__('Assign ledgers'), ['action' => 'assign']) ?></li>
-    </ul>
-</nav>
+<?php ?>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($transaction->id) ?></h3>
     <table class="vertical-table">

@@ -2,15 +2,7 @@
 echo $this->Html->script('jquery.min');
 echo $this->Html->script('assign');
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List transactions'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New transaction'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('Upload transactions'), ['action' => 'upload']) ?></li>
-        <li><?= $this->Html->link(__('Assign ledgers'), ['action' => 'assign']) ?></li>
-    </ul>
-</nav>
+
 <div class="transactions index large-9 medium-8 columns content">
   <h1>Assign Transactions to Ledgers</h1>
   <?php

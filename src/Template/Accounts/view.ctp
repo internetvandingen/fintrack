@@ -1,11 +1,4 @@
 <?php ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Upload Transactions'), ['controller' => 'Transactions', 'action' => 'upload']) ?></li>
-        <li><?= $this->Html->link(__('New Transaction'), ['controller' => 'Transactions', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
 <div class="transactions index large-9 medium-8 columns content">
     <h3><?= __('Transactions') ?></h3>
     <table cellpadding="0" cellspacing="0">

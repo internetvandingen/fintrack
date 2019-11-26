@@ -43,13 +43,13 @@ $cakeDescription = 'FinTrack';
         </ul>
         <div class="top-bar-section">
             <ul class="right">
-                <li><a href="<?= $this->Url->build(['controller'=>'Users', 'action'=>'logout']); ?>">Logout</a></li>
+                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
+                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
             </ul>
         </div>
     </nav>
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
-        <?= $this->element('sidebar'); ?>
         <?= $this->fetch('content') ?>
     </div>
     <footer>

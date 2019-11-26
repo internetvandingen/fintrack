@@ -11,6 +11,7 @@ class TransactionsController extends AppController
         parent::initialize();
         $this->loadComponent('Flash');
         $this->loadModel('Accounts');
+        $this->set('links', []);
     }
 
     public function all()
@@ -18,6 +19,12 @@ class TransactionsController extends AppController
         $this->loadComponent('Paginator');
         $transactions = $this->Paginator->paginate($this->Transactions);
         $this->set(compact('transactions'));
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                            ]);
     }
 
     public function index()
@@ -31,6 +38,12 @@ class TransactionsController extends AppController
         $transactions = $this->Paginator->paginate($transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                            ]);
     }
 
     public function add()
@@ -53,12 +66,17 @@ class TransactionsController extends AppController
         $transaction->account_options = $this->Accounts->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
 
         $this->set('transaction', $transaction);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                            ]);
     }
 
     public function upload()
     {
         $accounts = $this->Accounts->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
-        $this->set('accounts', $accounts);
         $data = $this->request->getData();
         if ($this->request->is('post')) {
             // parse data
@@ -73,12 +91,27 @@ class TransactionsController extends AppController
             }
             $this->Flash->error(__('Unable to add transactions.'));
         }
+        $this->set('accounts', $accounts);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                            ]);
     }
 
     public function view($id = null)
     {
         $transaction = $this->Transactions->findById($id)->firstOrFail();
         $this->set('transaction', $transaction);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                             ['Transactions', 'view', 'View transaction', $id],
+                             ['Transactions', 'edit', 'Edit transaction', $id],
+                            ]);
     }
 
     public function edit($id)
@@ -98,6 +131,14 @@ class TransactionsController extends AppController
         $transaction->ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
 
         $this->set('transaction', $transaction);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                             ['Transactions', 'view', 'View transaction', $id],
+                             ['Transactions', 'edit', 'Edit transaction', $id],
+                            ]);
     }
 
     public function delete($id = null)
@@ -120,11 +161,9 @@ class TransactionsController extends AppController
         $accounts = $this->Accounts->findByUser_id($this->Auth->user('id'))->contain('Transactions', function ($q) {
             return $q->where(['Transactions.ledger_id' => '0']);
         });
-        $this->set('accounts', $accounts);
 
         $this->loadModel('Ledgers');
         $ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
-        $this->set('ledger_options', $ledger_options);
 
         // POST request of changed ledgers
         if ($this->request->is(['post', 'put'])) {
@@ -140,6 +179,15 @@ class TransactionsController extends AppController
             $this->Flash->success(__('The transactions have been updated successfully.'));
             return $this->redirect(['action' => 'index']);
         }
+
+        $this->set('accounts', $accounts);
+        $this->set('ledger_options', $ledger_options);
+        $this->set('links', [
+                             ['Transactions', 'index', 'List transactions'],
+                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'upload', 'Upload transactions'],
+                             ['Transactions', 'assign', 'Assign transactions'],
+                            ]);
     }
 
     public function isAuthorized($user)

@@ -11,6 +11,7 @@ class UsersController extends AppController
         // pages accessible without authentication (login)
         $this->Auth->allow(['login', 'logout', 'add']);
         $this->loadModel('Accounts');
+        $this->set('links', []);
     }
 
     public function all()
@@ -18,15 +19,25 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
+        $this->set('links', [
+                             ['Users', 'add', 'New user'],
+                            ]);
     }
 
     public function index()
     {
-        $logged_id = $this->Auth->user('id');
-        $user = $this->Users->get($logged_id);
-        $user->accounts = $this->Accounts->find()->where(['user_id' => $logged_id]);
+        $id = $this->Auth->user('id');
+        $user = $this->Users->get($id);
+        $user->accounts = $this->Accounts->find()->where(['user_id' => $id]);
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        $this->set('links', [
+                             ['Users', 'index', 'View user', $id],
+                             ['Users', 'edit', 'Edit user', $id],
+                             ['Users', 'delete', 'Delete user', $id],
+                             ['Accounts', 'index', 'List accounts'],
+                             ['Accounts', 'add', 'Add accounts']
+                             ]);
     }
 
     public function view($id = null)
@@ -35,6 +46,13 @@ class UsersController extends AppController
         $user->accounts = $this->Accounts->find()->where(['user_id' => $id]);
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        $this->set('links', [
+                             ['Users', 'index', 'View user', $id],
+                             ['Users', 'edit', 'Edit user', $id],
+                             ['Users', 'delete', 'Delete user', $id],
+                             ['Accounts', 'index', 'List accounts'],
+                             ['Accounts', 'add', 'Add accounts']
+                             ]);
     }
 
     public function add()
@@ -43,6 +61,15 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
+                $query = $articles->query();
+                $query->insert(['user_id', 'name', 'description', 'balance'])
+                    ->values([
+                        'user_id' => $user->id,
+                        'name' => 'Temporary',
+                        'description' => 'To be assigned',
+                        'balance' => 0,
+                    ])
+                    ->execute();
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -51,6 +78,7 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        $this->set('links', []);
     }
 
 
@@ -70,6 +98,13 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        $this->set('links', [
+                             ['Users', 'index', 'View user', $id],
+                             ['Users', 'edit', 'Edit user', $id],
+                             ['Users', 'delete', 'Delete user', $id],
+                             ['Accounts', 'index', 'List accounts'],
+                             ['Accounts', 'add', 'Add accounts']
+                             ]);
     }
 
 

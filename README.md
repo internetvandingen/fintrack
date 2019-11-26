@@ -30,11 +30,11 @@ Search transaction | User exists | Result of search is shown | Wants to search f
 - [x] Authorization
 - [x] Upload csv
 - [x] Assign ledgers per transactions
-- [ ] Sidebars and menu
-  - [ ] Users
-  - [ ] Accounts
-  - [ ] Ledgers
-  - [ ] Transactions
+- [x] Sidebars and menu
+  - [x] Users
+  - [x] Accounts
+  - [x] Ledgers
+  - [x] Transactions
 - [ ] Search function for transactions
 - [ ] Statistics (graphs)
 - [ ] Expense predictions
