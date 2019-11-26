@@ -1,13 +1,8 @@
-<?php ?>
-<div class="ledgers form large-9 medium-8 columns content">
-    <?= $this->Form->create($ledger) ?>
-    <fieldset>
-        <legend><?= __('Edit Ledger') ?></legend>
-        <?php
-            echo $this->Form->control('name');
-            echo $this->Form->control('description');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<h3><?= __('Edit Ledger') ?></h3>
+<?php
+    echo $this->Form->create($ledger);
+    echo $this->Form->control('name');
+    echo $this->Form->control('description');
+    echo $this->Form->button(__('Submit'));
+    echo $this->Form->end();
+?>

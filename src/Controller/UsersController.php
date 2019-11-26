@@ -8,7 +8,7 @@ class UsersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        // pages accessible without authentication (login)
+        // pages accessible without authentication ( or login)
         $this->Auth->allow(['login', 'logout', 'add']);
         $this->loadModel('Accounts');
         $this->set('links', []);

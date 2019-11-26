@@ -1,12 +1,24 @@
 <?php ?>
-<div class="ledgers index large-9 medium-8 columns content">
-    <h3><?= __('Ledgers') ?></h3>
-        <?= $this->Number->format($ledger->id) ?></td>
-        <?= $this->Number->format($ledger->user_id) ?></td>
-        <?= h($ledger->name) ?></td>
-        <?= h($ledger->description) ?></td>
-        <?= $this->Number->currency($ledger->balance/100, 'euro') ?></td>
-        <?= h($ledger->created) ?></td>
-        <?= h($ledger->modified) ?></td>
-    </div>
-</div>
+<h3><?= __('Ledger details') ?></h3>
+<table class="vertical-table">
+    <tr>
+        <th scope="row"><?= __('Name') ?></th>
+        <td><?= h($ledger->name) ?></td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Balance') ?></th>
+        <td><?= $this->Setting->formatCurrency($ledger->balance) ?></td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Description') ?></th>
+        <td><?= h($ledger->description) ?></td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Created') ?></th>
+        <td><?= h($ledger->created) ?></td>
+    </tr>
+    <tr>
+        <th scope="row"><?= __('Modified') ?></th>
+        <td><?= h($ledger->modified) ?></td>
+    </tr>
+</table>

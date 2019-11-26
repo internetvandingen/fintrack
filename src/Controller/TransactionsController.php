@@ -21,7 +21,7 @@ class TransactionsController extends AppController
         $this->set(compact('transactions'));
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                             ]);
@@ -34,13 +34,13 @@ class TransactionsController extends AppController
         // get a list of account id's
         $accounts = $this->Accounts->find()->where(['user_id' => $logged_id])->extract('id')->toList();
         // get associated transactions
-        $transactions = $this->Transactions->find()->where(['account_id IN' => $accounts]);
+        $transactions = $this->Transactions->find()->where(['account_id IN' => $accounts])->contain(['Accounts', 'Ledgers']);
         $transactions = $this->Paginator->paginate($transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                             ]);
@@ -68,7 +68,7 @@ class TransactionsController extends AppController
         $this->set('transaction', $transaction);
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                             ]);
@@ -102,11 +102,11 @@ class TransactionsController extends AppController
 
     public function view($id = null)
     {
-        $transaction = $this->Transactions->findById($id)->firstOrFail();
+        $transaction = $this->Transactions->findById($id)->contain(['Accounts', 'Ledgers'])->firstOrFail();
         $this->set('transaction', $transaction);
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                              ['Transactions', 'view', 'View transaction', $id],
@@ -133,7 +133,7 @@ class TransactionsController extends AppController
         $this->set('transaction', $transaction);
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                              ['Transactions', 'view', 'View transaction', $id],
@@ -184,7 +184,7 @@ class TransactionsController extends AppController
         $this->set('ledger_options', $ledger_options);
         $this->set('links', [
                              ['Transactions', 'index', 'List transactions'],
-                             ['Transactions', 'add', 'New transactions'],
+                             ['Transactions', 'add', 'New transaction'],
                              ['Transactions', 'upload', 'Upload transactions'],
                              ['Transactions', 'assign', 'Assign transactions'],
                             ]);

@@ -12,6 +12,8 @@ class TransactionsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
         $this->addBehavior('Timestamp');
+        $this->belongsTo('Accounts');
+        $this->belongsTo('Ledgers');
     }
 
     public function parse($transactions, $bank, $account_id)

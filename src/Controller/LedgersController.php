@@ -41,6 +41,7 @@ class LedgersController extends AppController
         if ($this->request->is('post')) {
             $ledger = $this->Ledgers->patchEntity($ledger, $this->request->getData());
             $ledger->user_id = $this->Auth->user('id');
+            $ledger->balance = 0;
 
             if ($this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The new ledger has been saved.'));
@@ -64,7 +65,10 @@ class LedgersController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $ledger = $this->Ledgers->patchEntity($ledger, $this->request->getData());
+            $ledger = $this->Ledgers->patchEntity(
+                                 $ledger, $this->request->getData(), 
+                                 ['accessibleFields' => ['id'=>false, 'user_id'=>false, 'balance'=>false]]
+                                 );
             if ($this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The ledger has been saved.'));
 
@@ -85,7 +89,7 @@ class LedgersController extends AppController
     public function view($id = null)
     {
         $ledger = $this->Ledgers->get($id, [
-            'contain' => []
+            'contain' => ['Users']
         ]);
         $this->set(compact('ledger'));
         $this->set('_serialize', ['ledger']);

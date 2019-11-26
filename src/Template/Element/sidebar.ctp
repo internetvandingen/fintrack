@@ -8,7 +8,7 @@
             } elseif ($link[1] == 'delete') {
                 echo "<li>" . $this->Form->postLink(__('Delete User'), 
                                  ['action' => 'delete', $link[3]], 
-                                 ['confirm' => __('Are you sure you want to delete # {0}?', $link[3])]) . "</li>";
+                                 ['confirm' => __('Are you sure you want to delete?')]) . "</li>";
             } else {
                 echo "<li>" . $this->Html->link(__($link[2]), ['controller' => $link[0], 'action' => $link[1]]) . "</li>";
             }

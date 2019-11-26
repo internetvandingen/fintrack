@@ -1,4 +1,5 @@
-<h1>Add Article</h1>
+<h3>Add Article</h3>
+<fieldset>
 <?php
     echo $this->Form->create($account);
     echo $this->Form->control('bank_number');
@@ -8,3 +9,4 @@
     echo $this->Form->button(__('Save Account'));
     echo $this->Form->end();
 ?>
+</fieldset>

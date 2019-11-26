@@ -50,7 +50,9 @@ $cakeDescription = 'FinTrack';
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->element('sidebar'); ?>
-        <?= $this->fetch('content') ?>
+        <div class="view large-9 medium-8 columns content">
+            <?= $this->fetch('content') ?>
+        </div>
     </div>
     <footer>
     </footer>

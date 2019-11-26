@@ -1,4 +1,4 @@
-<h1>Edit Transaction</h1>
+<h3><?= __('Edit Transaction') ?></h3>
 <?php
     echo $this->Form->create($transaction);
     echo $this->Form->control('amount');
