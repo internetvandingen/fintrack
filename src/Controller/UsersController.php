@@ -92,15 +92,29 @@ class UsersController extends AppController
 
     public function delete($id = null)
     {
+        $this->loadModel('Transactions');
+        $this->loadModel('Ledgers');
         $this->request->allowMethod(['post', 'delete']);
         $user = $this->Users->get($id);
+
+        // delete transactions
+        $accounts = $this->Accounts->find()->where(['user_id' => $id])->extract('id')->toList();
+        if(!empty($accounts)){
+            $this->Transactions->deleteAll(['account_id IN'=>$accounts]);
+        }
+
+        // delete ledgers
+        $this->Ledgers->deleteAll(['user_id'=>$id]);
+        // delete accounts
+        $this->Accounts->deleteAll(['user_id'=>$id]);
+
         if ($this->Users->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'logout']);
     }
 
     public function login()

@@ -17,7 +17,7 @@
         <th scope="row"><?= __('Actions') ?></th>
         <td>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $id]) ?>, 
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $id], ['confirm' => __('Are you sure you want to delete your account? This cannot be undone!')]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $id], ['confirm' => __('Are you sure you want to delete your account and all associated data? This cannot be undone!')]) ?>
         </td>
     </tr>
 </table>
