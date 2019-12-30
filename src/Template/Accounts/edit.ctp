@@ -6,4 +6,5 @@
     echo $this->Form->control('bank_name', ['options' => ['ING'=>'ING', 'ASN'=>'ASN']]);
     echo $this->Form->button(__('Save Account'));
     echo $this->Form->end();
+    echo $this->Html->link(__('View account'), ['action' => 'view', $id]);
 ?>

@@ -10,7 +10,6 @@ class AccountsController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
-        $this->set('links', []);
     }
 
     public function all()
@@ -19,8 +18,6 @@ class AccountsController extends AppController
         $accounts = $this->Paginator->paginate($accounts);
         $this->set(compact('accounts'));
         $this->set('_serialize', ['accounts']);
-        $this->set('links', [['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']]);
     }
 
     public function index()
@@ -30,8 +27,6 @@ class AccountsController extends AppController
         $accounts = $this->Paginator->paginate($accounts);
         $this->set(compact('accounts'));
         $this->set('_serialize', ['accounts']);
-        $this->set('links', [['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']]);
     }
 
     public function view($id = null)
@@ -42,11 +37,7 @@ class AccountsController extends AppController
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
         $this->set('account', $this->Accounts->get($id));
-        $this->set('links', [['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts'],
-                             ['Accounts', 'edit', 'Edit account', $id],
-                             ['Transactions', 'upload', 'Upload transactions'],
-                             ['Transactions', 'add', 'New transaction']]);
+        $this->set('id', $id);
     }
 
     public function add()
@@ -69,8 +60,6 @@ class AccountsController extends AppController
         }
         $account["name"] = preg_replace("/ \([^\(]+\)$/", "", $account["name"]);
         $this->set('account', $account);
-        $this->set('links', [['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']]);
     }
 
     public function edit($id)
@@ -90,11 +79,7 @@ class AccountsController extends AppController
         }
         $account["name"] = preg_replace("/ \([^\(]+\)$/", "", $account["name"]);
         $this->set('account', $account);
-        $this->set('links', [['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts'],
-                             ['Accounts', 'view', 'View account', $id],
-                             ['Transactions', 'upload', 'Upload transactions'],
-                             ['Transactions', 'add', 'New transaction']]);
+        $this->set('id', $id);
     }
 
     public function isAuthorized($user)

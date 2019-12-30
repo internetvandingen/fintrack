@@ -8,7 +8,6 @@ class LedgersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->set('links', []);
     }
 
     public function all()
@@ -16,10 +15,6 @@ class LedgersController extends AppController
         $ledgers = $this->paginate($this->Ledgers);
         $this->set(compact('ledgers'));
         $this->set('_serialize', ['ledgers']);
-        $this->set('links', [
-                             ['Ledgers', 'index', 'List Ledgers'],
-                             ['Ledgers', 'add', 'Add Ledgers'],
-                            ]);
     }
 
     public function index()
@@ -29,10 +24,6 @@ class LedgersController extends AppController
         $ledgers = $this->paginate($ledgers);
         $this->set(compact('ledgers'));
         $this->set('_serialize', ['ledgers']);
-        $this->set('links', [
-                             ['Ledgers', 'index', 'List Ledgers'],
-                             ['Ledgers', 'add', 'Add Ledgers'],
-                            ]);
     }
 
     public function add()
@@ -52,10 +43,6 @@ class LedgersController extends AppController
         }
         $this->set(compact('ledger'));
         $this->set('_serialize', ['ledger']);
-        $this->set('links', [
-                             ['Ledgers', 'index', 'List Ledgers'],
-                             ['Ledgers', 'add', 'Add Ledgers'],
-                            ]);
     }
 
 
@@ -78,12 +65,7 @@ class LedgersController extends AppController
         }
         $this->set(compact('ledger'));
         $this->set('_serialize', ['ledger']);
-        $this->set('links', [
-                             ['Ledgers', 'index', 'List Ledgers'],
-                             ['Ledgers', 'add', 'Add Ledgers'],
-                             ['Ledgers', 'view', 'View Ledger', $id],
-                             ['Ledgers', 'edit', 'Edit Ledger', $id],
-                            ]);
+        $this->set('id', $id);
     }
 
     public function view($id = null)
@@ -93,12 +75,7 @@ class LedgersController extends AppController
         ]);
         $this->set(compact('ledger'));
         $this->set('_serialize', ['ledger']);
-        $this->set('links', [
-                             ['Ledgers', 'index', 'List Ledgers'],
-                             ['Ledgers', 'add', 'Add Ledgers'],
-                             ['Ledgers', 'view', 'View Ledger', $id],
-                             ['Ledgers', 'edit', 'Edit Ledger', $id],
-                            ]);
+        $this->set('id', $id);
     }
 
 

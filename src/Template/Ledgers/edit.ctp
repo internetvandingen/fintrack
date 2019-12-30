@@ -5,4 +5,5 @@
     echo $this->Form->control('description');
     echo $this->Form->button(__('Submit'));
     echo $this->Form->end();
+    echo $this->Html->link(__('View ledger'), ['action' => 'view', $id]);
 ?>

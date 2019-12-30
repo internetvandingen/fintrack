@@ -1,18 +1,20 @@
-<?php if (sizeof($links)>0): ?>
+<?php 
+?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <?php foreach($links as $link) {
-            if(in_array($link[1], ['edit', 'view'])){
-                echo "<li>".$this->Html->link(__($link[2]), ['controller' => $link[0], 'action' => $link[1], $link[3]])."</li>";
-            } elseif ($link[1] == 'delete') {
-                echo "<li>" . $this->Form->postLink(__('Delete User'), 
-                                 ['action' => 'delete', $link[3]], 
-                                 ['confirm' => __('Are you sure you want to delete?')]) . "</li>";
-            } else {
-                echo "<li>" . $this->Html->link(__($link[2]), ['controller' => $link[0], 'action' => $link[1]]) . "</li>";
-            }
-        }?>
+        <li class="heading"><?= $this->Html->link(__('Accounts'),['controller' => 'Accounts', 'action' => 'index']) ?></li>
+        <li>
+            <?= $this->Html->link(__('New'),['controller' => 'Accounts', 'action' => 'add'])?>
+        </li>
+        <li class="heading"><?= $this->Html->link(__('Ledgers'),['controller' => 'Ledgers', 'action' => 'index'])?></li>
+        <li>
+            <?= $this->Html->link(__('New'),['controller' => 'Ledgers', 'action' => 'add'])?>
+        </li>
+        <li class="heading"><?= $this->Html->link(__('Transactions'),['controller' => 'Transactions', 'action' => 'index'])?></li>
+        <li>
+            <?= $this->Html->link(__('New'),['controller' => 'Transactions', 'action' => 'add'])?>
+            <?= $this->Html->link(__('Upload'),['controller' => 'Transactions', 'action' => 'upload'])?>
+            <?= $this->Html->link(__('Assign'),['controller' => 'Transactions', 'action' => 'assign'])?>
+        </li>
     </ul>
 </nav>
-<?php endif; ?>

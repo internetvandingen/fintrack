@@ -1,4 +1,4 @@
-<h3>Add Article</h3>
+<h3>Add Account</h3>
 <fieldset>
 <?php
     echo $this->Form->create($account);

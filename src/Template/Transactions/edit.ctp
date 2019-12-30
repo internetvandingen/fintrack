@@ -8,4 +8,5 @@
     echo $this->Form->control('description');
     echo $this->Form->button(__('Save Transaction'));
     echo $this->Form->end();
+    echo $this->Html->link(__('View transaction'), ['action' => 'view', $id]);
 ?>

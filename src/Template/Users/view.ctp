@@ -13,6 +13,13 @@
         <th scope="row"><?= __('Modified') ?></th>
         <td><?= h($user->modified) ?></td>
     </tr>
+    <tr>
+        <th scope="row"><?= __('Actions') ?></th>
+        <td>
+            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $id]) ?>, 
+            <?= $this->Html->link(__('Delete'), ['action' => 'delete', $id]) ?>
+        </td>
+    </tr>
 </table>
 <div class="related">
     <h4><?= __('Related Accounts') ?></h4>

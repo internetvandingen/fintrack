@@ -11,7 +11,6 @@ class UsersController extends AppController
         // pages accessible without authentication ( or login)
         $this->Auth->allow(['login', 'logout', 'add']);
         $this->loadModel('Accounts');
-        $this->set('links', []);
     }
 
     public function all()
@@ -19,25 +18,11 @@ class UsersController extends AppController
         $users = $this->paginate($this->Users);
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
-        $this->set('links', [
-                             ['Users', 'add', 'New user'],
-                            ]);
     }
 
     public function index()
     {
-        $id = $this->Auth->user('id');
-        $user = $this->Users->get($id);
-        $user->accounts = $this->Accounts->find()->where(['user_id' => $id]);
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
-        $this->set('links', [
-                             ['Users', 'index', 'View user', $id],
-                             ['Users', 'edit', 'Edit user', $id],
-                             ['Users', 'delete', 'Delete user', $id],
-                             ['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']
-                             ]);
+        return $this->redirect(['controller'=>'Users', 'action' => 'view', $this->Auth->user('id')]);
     }
 
     public function view($id = null)
@@ -46,13 +31,7 @@ class UsersController extends AppController
         $user->accounts = $this->Accounts->find()->where(['user_id' => $id]);
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        $this->set('links', [
-                             ['Users', 'index', 'View user', $id],
-                             ['Users', 'edit', 'Edit user', $id],
-                             ['Users', 'delete', 'Delete user', $id],
-                             ['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']
-                             ]);
+        $this->set('id', $id);
     }
 
     public function add()
@@ -78,7 +57,6 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        $this->set('links', []);
     }
 
 
@@ -98,13 +76,7 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        $this->set('links', [
-                             ['Users', 'index', 'View user', $id],
-                             ['Users', 'edit', 'Edit user', $id],
-                             ['Users', 'delete', 'Delete user', $id],
-                             ['Accounts', 'index', 'List accounts'],
-                             ['Accounts', 'add', 'Add accounts']
-                             ]);
+        $this->set('id', $id);
     }
 
 
