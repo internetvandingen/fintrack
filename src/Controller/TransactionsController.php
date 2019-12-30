@@ -117,14 +117,17 @@ class TransactionsController extends AppController
 
     public function assign()
     {
+        $this->loadModel('Ledgers');
+        $ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
+        $temp_ledger_id = array_search('Temporary', $ledger_options);
+
         // see overview of accounts and a count of how many unassigned transactions they have
         // show a list of transactions that have unassigned ledgers for each account
         $accounts = $this->Accounts->findByUser_id($this->Auth->user('id'))->contain('Transactions', function ($q) {
-            return $q->where(['Transactions.ledger_id' => '0']);
+            global $temp_ledger_id; // variable is defined outside function scope, so get it from global scope
+            return $q->where(['Transactions.ledger_id' => $temp_ledger_id]);
         });
 
-        $this->loadModel('Ledgers');
-        $ledger_options = $this->Ledgers->find('list')->where(['user_id' => $this->Auth->user('id')])->toArray();
 
         // POST request of changed ledgers
         if ($this->request->is(['post', 'put'])) {

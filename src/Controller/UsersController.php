@@ -36,16 +36,26 @@ class UsersController extends AppController
 
     public function add()
     {
+        $this->loadModel('Ledgers');
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
-                $query = $articles->query();
+                $query = $this->Ledgers->query();
                 $query->insert(['user_id', 'name', 'description', 'balance'])
                     ->values([
                         'user_id' => $user->id,
                         'name' => 'Temporary',
                         'description' => 'To be assigned',
+                        'balance' => 0,
+                    ])
+                    ->execute();
+                $query = $this->Ledgers->query();
+                $query->insert(['user_id', 'name', 'description', 'balance'])
+                    ->values([
+                        'user_id' => $user->id,
+                        'name' => 'Internal transfers',
+                        'description' => 'Transfers between owned accounts, sum should always be zero',
                         'balance' => 0,
                     ])
                     ->execute();

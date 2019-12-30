@@ -56,7 +56,7 @@ class LedgersController extends AppController
                                  $ledger, $this->request->getData(), 
                                  ['accessibleFields' => ['id'=>false, 'user_id'=>false, 'balance'=>false]]
                                  );
-            if ($this->Ledgers->save($ledger)) {
+            if ($ledger->name != 'Temporary' && $ledger->name != 'Internal transfers' && $this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The ledger has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -81,13 +81,27 @@ class LedgersController extends AppController
 
     public function delete($id = null)
     {
+        $this->loadModel('Transactions');
         $this->request->allowMethod(['post', 'delete']);
         $ledger = $this->Ledgers->get($id);
-        // ledger id 0 must be kept to store unassigned transactions
-        if ($id != 0 && $this->Ledgers->delete($ledger)) {
-            $this->Flash->success(__('The ledger has been deleted.'));
+
+        // get ledger id of the 'Temporary' ledger
+        $logged_id = $this->Auth->user('id');
+        $temporary_ledger_id = $this->Ledgers->find()->where(['user_id'=>$logged_id, 'name'=>'Temporary'])->first()->id;
+
+        // Temporary and Internal transfers must be kept to store unassigned transactions
+        if ($ledger->name != 'Temporary' && $ledger->name != 'Internal transfers') {
+            // update ledger_id of all associated transactions to Temporary
+            $this->Transactions->updateAll(
+                  ['ledger_id'=>$temporary_ledger_id],  // fields
+                  ['ledger_id'=>$id]);                  // conditions
+            if ($this->Ledgers->delete($ledger)){
+                $this->Flash->success(__('The ledger has been deleted.'));
+            } else {
+                $this->Flash->error(__('The ledger could not be deleted. Please, try again.'));
+            }
         } else {
-            $this->Flash->error(__('The ledger could not be deleted. Please, try again.'));
+            $this->Flash->error(__('This default ledger cannot not be deleted.'));
         }
 
         return $this->redirect(['action' => 'index']);
@@ -103,7 +117,7 @@ class LedgersController extends AppController
         if (in_array($action, ['index', 'add'])) {
             // index and add are always allowed for logged in users
             return true;
-        } else if (in_array($action, ['edit', 'delete'])){
+        } else if (in_array($action, ['view', 'edit', 'delete'])){
             // require id
             $id = $this->request->getParam('pass.0');
             if (!$id) {
