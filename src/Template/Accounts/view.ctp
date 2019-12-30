@@ -25,7 +25,9 @@
         <th scope="row"><?= __('Actions') ?></th>
         <td>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $id]) ?>, 
-            <?= $this->Html->link(__('Delete'), ['action' => 'delete', $id]) ?>
+            <?= $this->Form->postLink(__('Delete'),
+                                      ['action' => 'delete', $id],
+                                      ['confirm' => __('Are you sure you want to delete this account and all associated transactions?')]) ?>
         </td>
     </tr>
 </table>

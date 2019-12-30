@@ -17,7 +17,7 @@
         <th scope="row"><?= __('Actions') ?></th>
         <td>
             <?= $this->Html->link(__('Edit'), ['action' => 'edit', $id]) ?>, 
-            <?= $this->Html->link(__('Delete'), ['action' => 'delete', $id]) ?>
+            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $id], ['confirm' => __('Are you sure you want to delete your account? This cannot be undone!')]) ?>
         </td>
     </tr>
 </table>
@@ -43,7 +43,6 @@
             <td class="actions">
                 <?= $this->Html->link(__('View'), ['controller' => 'Accounts', 'action' => 'view', $accounts->id]) ?>
                 <?= $this->Html->link(__('Edit'), ['controller' => 'Accounts', 'action' => 'edit', $accounts->id]) ?>
-                <?= $this->Form->postLink(__('Delete'), ['controller' => 'Accounts', 'action' => 'delete', $accounts->id], ['confirm' => __('Are you sure you want to delete?')]) ?>
             </td>
         </tr>
         <?php endforeach; ?>

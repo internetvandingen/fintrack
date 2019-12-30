@@ -26,6 +26,10 @@ class TransactionsController extends AppController
         $logged_id = $this->Auth->user('id');
         // get a list of account id's
         $accounts = $this->Accounts->find()->where(['user_id' => $logged_id])->extract('id')->toList();
+        if(empty($accounts)){
+            // no accounts found with user, this also means no transactions, so search for impossible condition
+            $accounts = [-1];
+        }
         // get associated transactions
         $transactions = $this->Transactions->find()->where(['account_id IN' => $accounts])->contain(['Accounts', 'Ledgers']);
         $transactions = $this->Paginator->paginate($transactions);

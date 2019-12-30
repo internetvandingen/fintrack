@@ -82,6 +82,24 @@ class AccountsController extends AppController
         $this->set('id', $id);
     }
 
+    public function delete($id)
+    {
+        $this->loadModel('Transactions');
+        $this->request->allowMethod(['post', 'delete']);
+
+        $account = $this->Accounts->findById($id)->firstOrFail();
+        // delete all transactions of account
+        $this->Transactions->deleteAll(['account_id'=>$account->id]);
+        // delete account
+        if ($this->Accounts->delete($account)){
+            $this->Flash->success(__('The account and all associated transactions have been deleted.'));
+        } else {
+            $this->Flash->error(__('The account could not be deleted. Please, try again.'));
+        }
+
+        return $this->redirect(['action' => 'index']);
+    }
+
     public function isAuthorized($user)
     {
         if ($user['id'] === 1){
@@ -93,7 +111,7 @@ class AccountsController extends AppController
         if (in_array($action, ['index', 'add'])){
             return true;
         }
-        elseif (in_array($action, ['view', 'edit'])) {
+        elseif (in_array($action, ['view', 'edit', 'delete'])) {
             // require an id.
             $id = $this->request->getParam('pass.0');
             if (!$id) {
