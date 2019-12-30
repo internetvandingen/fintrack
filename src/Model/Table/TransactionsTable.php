@@ -33,6 +33,20 @@ class TransactionsTable extends Table
                                    ];
                 }
                 break;
+            case "ASN":
+                $parsed = [];
+                foreach ($transactions as $i => $entry){
+                    $parsed[$i] = [];
+                    $parsed[$i] = [
+                                   'account_id' => $account_id,
+                                   'amount' => $entry['Transactiebedrag'],
+                                   'counter_account' => $entry['Tegenrekeningnummer'],
+                                   'date' => substr($entry['Boekingsdatum'], 6,4) . '-' . substr($entry['Boekingsdatum'], 3, 2) . '-' . substr($entry['Boekingsdatum'], 0,2),
+                                   'ledger_id' => 0,
+                                   'description' => $entry['Omschrijving'] . ' ' . $entry['Globale transactiecode'] . ' ' . $entry['Betalingskenmerk']
+                                   ];
+                }
+                break;
             default:
                 $parsed = false;
                 break;

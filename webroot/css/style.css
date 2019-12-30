@@ -540,3 +540,13 @@ td.overflow:hover {
 .hidden {
     display:none;
 }
+
+#parsed_csv_list {
+    overflow: scroll;
+    max-height:500px;
+}
+
+#parsed_csv_list table.overflow {
+    table-layout:auto;
+}
+
