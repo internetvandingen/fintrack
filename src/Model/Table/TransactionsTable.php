@@ -16,7 +16,7 @@ class TransactionsTable extends Table
         $this->belongsTo('Ledgers');
     }
 
-    public function parse($transactions, $bank, $account_id)
+    public function parse($transactions, $bank, $account_id, $ledger_id)
     {
         switch ($bank) {
             case "ING":
@@ -28,7 +28,7 @@ class TransactionsTable extends Table
                                    'amount' => ($entry['Af Bij']=='Af' ? '-' : '' ) . str_replace(',', '', $entry['Bedrag (EUR)']),
                                    'counter_account' => $entry['Tegenrekening'],
                                    'date' => substr($entry['Datum'], 0,4) . '-' . substr($entry['Datum'], 4, 2) . '-' . substr($entry['Datum'],   6,2),
-                                   'ledger_id' => 0,
+                                   'ledger_id' => $ledger_id,
                                    'description' => $entry['Naam / Omschrijving'] . ' ' . $entry['MutatieSoort'] . ' ' . $entry['Mededelingen']
                                    ];
                 }
@@ -39,11 +39,11 @@ class TransactionsTable extends Table
                     $parsed[$i] = [];
                     $parsed[$i] = [
                                    'account_id' => $account_id,
-                                   'amount' => $entry['Transactiebedrag'],
+                                   'amount' => $entry['Transactiebedrag']*100,
                                    'counter_account' => $entry['Tegenrekeningnummer'],
                                    'date' => substr($entry['Boekingsdatum'], 6,4) . '-' . substr($entry['Boekingsdatum'], 3, 2) . '-' . substr($entry['Boekingsdatum'], 0,2),
-                                   'ledger_id' => 0,
-                                   'description' => $entry['Omschrijving'] . ' ' . $entry['Globale transactiecode'] . ' ' . $entry['Betalingskenmerk']
+                                   'ledger_id' => $ledger_id,
+                                   'description' => $entry['Naam tegenrekening'] . ' ' . $entry['Omschrijving'] . ' ' . $entry['Globale transactiecode'] . ' ' . $entry['Betalingskenmerk']
                                    ];
                 }
                 break;

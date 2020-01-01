@@ -23,12 +23,16 @@ window.onload = function() {
     });
   });
 
-  $('select[name="account_id"]').on("change", function(){
-    // if account dropdown changes, read new value, read bank from "account1 (BANK)"
-    let bank = $(this).find(":selected").text().match(/\([^\(]+\)$/)[0].slice(1,-1);
+  change_bank_dropdown();
+  // if account dropdown changes
+  $('select[name="account_id"]').on("change", change_bank_dropdown);
+}
+
+function change_bank_dropdown(){
+    // read new value, read bank from "account1 (BANK)"
+    let bank = $('select[name="account_id"]').find(":selected").text().match(/\([^\(]+\)$/)[0].slice(1,-1);
     // set bank dropdown to bank
     $('select[name="bank"]').val(bank);
-  });
 }
 
 function displayHTMLTable(results){

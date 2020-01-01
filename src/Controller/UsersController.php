@@ -137,12 +137,12 @@ class UsersController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($user['id'] === 1){
+        if ($user['id'] === 9){
              return true;
         }
 
         $action = $this->request->getParam('action');
-        if ($action === 'index') {
+        if ($action === 'index' || $action === 'add') {
             return true;
         } else if (in_array($action, ['edit', 'view', 'delete'])) {
             // view, edit and delete require id
