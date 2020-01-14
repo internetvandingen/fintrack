@@ -7,22 +7,26 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/
 <h3><?= __('Overview') ?></h3>
 <canvas id="canvas" style="width:100%;"></canvas>
 
+<br>
 
-<?php /*
-<table cellpadding="0" cellspacing="0" class="week">
+<table id="month" cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th scope="col"><?= __('Week') ?></th>
-            <th scope="col"><?= __('Amount') ?></th>
+            <th scope="col"><?= __('Ledger') ?></th>
+            <th scope="col"><?= __('January') ?></th>
+            <th scope="col"><?= __('February') ?></th>
+            <th scope="col"><?= __('March') ?></th>
+            <th scope="col"><?= __('April') ?></th>
+            <th scope="col"><?= __('May') ?></th>
+            <th scope="col"><?= __('June') ?></th>
+            <th scope="col"><?= __('July') ?></th>
+            <th scope="col"><?= __('August') ?></th>
+            <th scope="col"><?= __('September') ?></th>
+            <th scope="col"><?= __('October') ?></th>
+            <th scope="col"><?= __('November') ?></th>
+            <th scope="col"><?= __('December') ?></th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($weekly as $week): ?>
-        <tr>
-            <td><?= h($week['week']) ?></td>
-            <td><?= $this->Setting->formatCurrency($week['amount']) ?></td>
-        </tr>
-        <?php endforeach; ?>
     </tbody>
 </table>
-*/ ?>

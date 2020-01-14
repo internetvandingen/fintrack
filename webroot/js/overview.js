@@ -1,6 +1,6 @@
 window.onload = function() {
     var barChartData = {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
         datasets: []
     };
     var ctx = document.getElementById('canvas').getContext('2d');
@@ -42,12 +42,26 @@ window.onload = function() {
             result[key]["data"][month_index] += parseFloat(value["amount"]);
         }
         barChartData.datasets = [];
-        for (var k in result) {
+        for (let k in result) {
             if (result.hasOwnProperty(k)) {
                barChartData.datasets.push(result[k]);
             }
         }
         window.myBar.update();
+
+        // update table
+        let table = "";
+        for (let key in result){
+            if (result.hasOwnProperty(key)) {
+                table += "<tr><td>"+key+"</td>";
+                let data = result[key]['data'];
+                for (let ii = 0; ii<data.length; ii++) {
+                    table += "<td>&euro;" + data[ii].toFixed(2) + "</td>";
+                }
+                table += "</tr>";
+            }
+        }
+        $('#month tbody').html(table);
     });
 };
 
