@@ -8,6 +8,7 @@
             <th scope="col"><?= $this->Paginator->sort('name') ?></th>
             <th scope="col"><?= $this->Paginator->sort('description') ?></th>
             <th scope="col"><?= $this->Paginator->sort('balance') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('color') ?></th>
             <th scope="col"><?= $this->Paginator->sort('created') ?></th>
             <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
             <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -21,6 +22,7 @@
             <td><?= h($ledger->name) ?></td>
             <td><?= h($ledger->description) ?></td>
             <td><?= $this->Setting->formatCurrency($ledger->balance) ?></td>
+            <td><?= h($ledger->color) ?></td>
             <td><?= h($ledger->created) ?></td>
             <td><?= h($ledger->modified) ?></td>
             <td class="actions">

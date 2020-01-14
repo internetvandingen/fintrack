@@ -56,7 +56,7 @@ class LedgersController extends AppController
                                  $ledger, $this->request->getData(), 
                                  ['accessibleFields' => ['id'=>false, 'user_id'=>false, 'balance'=>false]]
                                  );
-            if ($ledger->name != 'Temporary' && $ledger->name != 'Internal transfers' && $this->Ledgers->save($ledger)) {
+            if ($this->Ledgers->save($ledger)) {
                 $this->Flash->success(__('The ledger has been saved.'));
 
                 return $this->redirect(['action' => 'index']);

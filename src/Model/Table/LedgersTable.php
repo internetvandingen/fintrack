@@ -26,7 +26,7 @@ class LedgersTable extends Table
         $validator
             ->requirePresence('name', 'create')
             ->notEmptyString('name', 'Please fill this field')
-            ->lengthBetween('name', [3, 15], 'Name must be between 3 and 15 characters long');
+            ->lengthBetween('name', [3, 20], 'Name must be between 3 and 20 characters long');
         $validator
             ->integer('balance')
             ->requirePresence('balance', 'create');

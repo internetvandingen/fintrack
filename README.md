@@ -67,6 +67,7 @@ CREATE TABLE ledgers (
     name VARCHAR(255),
     description VARCHAR(255),
     balance INT NOT NULL,
+    color CHAR(6),
     created DATETIME,
     modified DATETIME,
     FOREIGN KEY user_ledger_key (user_id) REFERENCES users(id)

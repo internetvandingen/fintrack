@@ -1,6 +1,6 @@
 <?php 
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
+<nav class="large-2 medium-3 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= $this->Html->link(__('Accounts'),['controller' => 'Accounts', 'action' => 'index']) ?></li>
         <li>

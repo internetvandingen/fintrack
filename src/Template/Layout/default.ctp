@@ -36,7 +36,7 @@ $cakeDescription = 'FinTrack';
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
+        <ul class="title-area large-2 medium-2 columns">
             <li class="name">
                 <h1><a href="<?= $this->Url->build(['controller'=>'Users', 'action'=>'index']); ?>">User</a></h1>
             </li>
@@ -50,7 +50,7 @@ $cakeDescription = 'FinTrack';
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->element('sidebar'); ?>
-        <div class="view large-9 medium-8 columns content">
+        <div class="view large-10 medium-10 columns content">
             <?= $this->fetch('content') ?>
         </div>
     </div>

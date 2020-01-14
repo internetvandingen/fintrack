@@ -182,7 +182,7 @@ class TransactionsController extends AppController
         // create string containing all account id's to insert into query
         $accounts = "(" . implode(", ", $accounts) . ")";
 
-        $sql = "SELECT l.name, MONTH(t.date) AS month, SUM(t.amount)/100 as amount, t.account_id ".
+        $sql = "SELECT l.name, l.color, MONTH(t.date) AS month, SUM(t.amount)/100 as amount, t.account_id ".
                "FROM transactions t ".
                "LEFT JOIN ledgers l ON t.ledger_id = l.id ".
                "WHERE t.account_id IN " . $accounts . " AND t.date BETWEEN '".$year."-01-01' AND '".$year."-12-31' ".

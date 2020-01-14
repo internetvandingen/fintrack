@@ -4,7 +4,6 @@ echo $this->Html->script('overview.js');
 echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js');
 ?>
 
-<h3><?= __('Overview') ?></h3>
 <?= $this->Form->control('year', ['type'=>'number', 'value'=>date('Y')]); ?>
 <canvas id="canvas" style="width:100%;"></canvas>
 

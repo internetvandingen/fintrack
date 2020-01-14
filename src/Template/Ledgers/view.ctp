@@ -14,6 +14,10 @@
         <td><?= h($ledger->description) ?></td>
     </tr>
     <tr>
+        <th scope="row"><?= __('Color') ?></th>
+        <td><?= h($ledger->color) ?></td>
+    </tr>
+    <tr>
         <th scope="row"><?= __('Created') ?></th>
         <td><?= h($ledger->created) ?></td>
     </tr>
