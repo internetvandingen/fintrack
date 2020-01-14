@@ -158,6 +158,39 @@ class TransactionsController extends AppController
         $this->set('ledger_options', $ledger_options);
     }
 
+    public function overview()
+    {
+
+    }
+
+    public function api()
+    {
+        $this->loadModel('Ledgers');
+
+        // find account id's of user
+        $logged_id = $this->Auth->user('id');
+        $accounts = $this->Accounts->find()->where(['user_id' => $logged_id])->extract('id')->toList();
+        if(empty($accounts)){
+            // no accounts found with user, this also means no transactions, so search for impossible condition
+            $accounts = [-1];
+        }
+        // create string containing all account id's to insert into query
+        $accounts = "(" . implode(", ", $accounts) . ")";
+
+        $sql = "SELECT l.name, MONTH(t.date) AS month, SUM(t.amount)/100 as amount, t.account_id ".
+               "FROM transactions t ".
+               "LEFT JOIN ledgers l ON t.ledger_id = l.id ".
+               "WHERE t.account_id IN " . $accounts . " ".
+               "GROUP BY l.id, month";
+        $data = $this->Transactions->getConnection()->execute($sql)->fetchAll('assoc');
+
+        $this->set([
+            'data' => $data,
+            '_serialize' => 'data',
+        ]);
+        $this->RequestHandler->renderAs($this, 'json');
+    }
+
     public function isAuthorized($user)
     {
         if ($user['id'] === 9){
@@ -165,7 +198,7 @@ class TransactionsController extends AppController
         }
 
         $action = $this->request->getParam('action');
-        if (in_array($action, ['index', 'add', 'upload', 'assign'])) {
+        if (in_array($action, ['index', 'add', 'upload', 'assign', 'overview', 'api'])) {
             // These actions are always allowed for logged in users
             return true;
         } else if (in_array($action, ['view', 'edit', 'delete'])){
