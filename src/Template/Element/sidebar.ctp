@@ -15,6 +15,7 @@
             <?= $this->Html->link(__('New'),['controller' => 'Transactions', 'action' => 'add'])?>
             <?= $this->Html->link(__('Upload'),['controller' => 'Transactions', 'action' => 'upload'])?>
             <?= $this->Html->link(__('Assign'),['controller' => 'Transactions', 'action' => 'assign'])?>
+            <?= $this->Html->link(__('Overview'),['controller' => 'Transactions', 'action' => 'overview'])?>
         </li>
     </ul>
 </nav>

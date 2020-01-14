@@ -5,8 +5,11 @@ echo $this->Html->script('https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/
 ?>
 
 <h3><?= __('Overview') ?></h3>
+<?= $this->Form->control('year', ['type'=>'number', 'value'=>date('Y')]); ?>
 <canvas id="canvas" style="width:100%;"></canvas>
 
+<br>
+<br>
 <br>
 
 <table id="month" cellpadding="0" cellspacing="0">

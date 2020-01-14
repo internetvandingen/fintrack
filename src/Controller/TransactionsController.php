@@ -163,8 +163,13 @@ class TransactionsController extends AppController
 
     }
 
-    public function api()
+    public function api($argument=null)
     {
+        $year = date("Y");
+        if (!is_null($argument)){
+            $year = $argument;
+        }
+
         $this->loadModel('Ledgers');
 
         // find account id's of user
@@ -180,7 +185,7 @@ class TransactionsController extends AppController
         $sql = "SELECT l.name, MONTH(t.date) AS month, SUM(t.amount)/100 as amount, t.account_id ".
                "FROM transactions t ".
                "LEFT JOIN ledgers l ON t.ledger_id = l.id ".
-               "WHERE t.account_id IN " . $accounts . " ".
+               "WHERE t.account_id IN " . $accounts . " AND t.date BETWEEN '".$year."-01-01' AND '".$year."-12-31' ".
                "GROUP BY l.id, month";
         $data = $this->Transactions->getConnection()->execute($sql)->fetchAll('assoc');
 
