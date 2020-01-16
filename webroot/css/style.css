@@ -550,3 +550,6 @@ td.overflow:hover {
     table-layout:auto;
 }
 
+.sortable {
+    cursor:pointer;
+}

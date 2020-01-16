@@ -1,5 +1,6 @@
 <?php
 echo $this->Html->script('jquery.min');
+echo $this->Html->script('jquery.sortElements');
 echo $this->Html->script('assign');
 ?>
 
@@ -10,26 +11,31 @@ echo $this->Html->script('assign');
       // stage 3: POST request of changed ledgers
   // build select tag
   $names = [];
+  $max_value = -1;
+  $max_index = 0;
   foreach ($accounts as $account){
-      $names[$account['id']] = $account['name'] . " - " . sizeof($account['transactions']) . " unassigned";
+      $unassigned_transactions = sizeof($account['transactions']);
+      if ( $unassigned_transactions > $max_value ){
+          $max_value = $unassigned_transactions;
+          $max_index = $account['id'];
+      }
+      $names[$account['id']] = $account['name'] . " - " . $unassigned_transactions . " unassigned";
   }
-  echo $this->Form->control('account_id', ['options'=>$names]);
+  echo $this->Form->control('account_id', ['options'=>$names, 'default'=>$max_index]);
   // build table for each account, hidden on default
   echo $this->Form->create();
 ?>
   <h3><?= __('Unassigned Transactions') ?></h3>
   <?php foreach ($accounts as $account): ?>
       <table cellpadding="0" cellspacing="0" class="hidden" data-account="<?= $account['id'] ?>">
-          <thead>
               <tr>
-                  <th scope="col"><?= $this->Paginator->sort('amount') ?></th>
-                  <th scope="col"><?= $this->Paginator->sort('counter_account') ?></th>
-                  <th scope="col"><?= $this->Paginator->sort('date') ?></th>
-                  <th scope="col"><?= $this->Paginator->sort('ledger_id') ?></th>
-                  <th scope="col"><?= $this->Paginator->sort('description') ?></th>
+                  <th scope="col" class="sortable"><?= h('Amount') ?></th>
+                  <th scope="col" class="sortable"><?= h('Counter account') ?></th>
+                  <th scope="col" class="sortable"><?= h('Date') ?></th>
+                  <th scope="col"><?= h('Ledger') ?></th>
+                  <th scope="col" class="sortable"><?= h('Description') ?></th>
               </tr>
-          </thead>
-          <tbody>
+<tbody>
               <?php foreach ($account['transactions'] as $key=>$transaction): ?>
                   <tr>
                       <td><?= $this->Setting->formatCurrency($transaction->amount) ?></td>
@@ -41,7 +47,7 @@ echo $this->Html->script('assign');
                       <td class='overflow'><?= h($transaction->description) ?></td>
                   </tr>
               <?php endforeach; ?>
-          </tbody>
+</tbody>
       </table>
   <?php endforeach; ?>
 <?php
