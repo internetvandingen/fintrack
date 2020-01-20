@@ -32,7 +32,9 @@ class TransactionsController extends AppController
         }
         // get associated transactions
         $transactions = $this->Transactions->find()->where(['account_id IN' => $accounts])->contain(['Accounts', 'Ledgers']);
-        $transactions = $this->Paginator->paginate($transactions);
+        // define which columns paginator can sort on, mandatory when trying to sort on associated data
+        $this->paginate = ['sortWhitelist' => ['Accounts.name', 'amount', 'counter_account', 'data', 'Ledgers.name', 'description']];
+        $transactions = $this->paginate($transactions);
         $this->set(compact('transactions'));
         $this->set('_serialize', ['transactions']);
     }

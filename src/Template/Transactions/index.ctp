@@ -3,11 +3,11 @@
 <table cellpadding="0" cellspacing="0">
     <thead>
         <tr>
-            <th scope="col"><?= $this->Paginator->sort('account_id') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('Accounts.name', __('Account')) ?></th>
             <th scope="col"><?= $this->Paginator->sort('amount') ?></th>
             <th scope="col"><?= $this->Paginator->sort('counter_account') ?></th>
             <th scope="col"><?= $this->Paginator->sort('date') ?></th>
-            <th scope="col"><?= $this->Paginator->sort('ledger_id') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('Ledgers.name', __('Ledger')) ?></th>
             <th scope="col"><?= $this->Paginator->sort('description') ?></th>
             <th scope="col" class="actions"><?= __('Actions') ?></th>
         </tr>
