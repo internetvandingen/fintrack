@@ -85,15 +85,13 @@ class LedgersController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $ledger = $this->Ledgers->get($id);
 
-        // get ledger id of the 'Temporary' ledger
-        $logged_id = $this->Auth->user('id');
-        $temporary_ledger_id = $this->Ledgers->find()->where(['user_id'=>$logged_id, 'name'=>'Temporary'])->first()->id;
+        $temp_ledger_id = $this->Auth->user('temp_ledger_id');
 
         // Temporary and Internal transfers must be kept to store unassigned transactions
-        if ($ledger->name != 'Temporary' && $ledger->name != 'Internal transfers') {
+        if ($ledger->id != $temp_ledger_id) {
             // update ledger_id of all associated transactions to Temporary
             $this->Transactions->updateAll(
-                  ['ledger_id'=>$temporary_ledger_id],  // fields
+                  ['ledger_id'=>$temp_ledger_id],  // fields
                   ['ledger_id'=>$id]);                  // conditions
             if ($this->Ledgers->delete($ledger)){
                 $this->Flash->success(__('The ledger has been deleted.'));

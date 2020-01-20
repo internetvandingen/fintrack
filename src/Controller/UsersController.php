@@ -41,6 +41,7 @@ class UsersController extends AppController
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
+                // insert temporary ledger
                 $query = $this->Ledgers->query();
                 $query->insert(['user_id', 'name', 'description', 'balance'])
                     ->values([
@@ -50,6 +51,15 @@ class UsersController extends AppController
                         'balance' => 0,
                     ])
                     ->execute();
+
+                // get id of temporary ledger
+                $temp_ledger_id = $this->Ledgers->find()->where(['user_id'=>$user->id, 'name'=>'Temporary'])->first()->id;
+
+                // store it in user
+                $query = $this->Users->query();
+                $query->update()->set(['temp_ledger_id' => $temp_ledger_id])->where(['id' => $user->id])->execute();
+
+                // insert internal transfers ledger
                 $query = $this->Ledgers->query();
                 $query->insert(['user_id', 'name', 'description', 'balance'])
                     ->values([
