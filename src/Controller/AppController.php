@@ -50,7 +50,7 @@ class AppController extends Controller
          * Enable the following component for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
          */
-        //$this->loadComponent('Security');
+        $this->loadComponent('Security');
 
         $this->loadComponent('Auth', [
             'authorize'=> 'Controller',
@@ -85,11 +85,6 @@ class AppController extends Controller
 
     public function isAuthorized($user)
     {
-        // Hardcoded admin user 1
-        if ($user['id'] === 1){
-             return true;
-        }
-
         // By default deny access.
         return false;
     }

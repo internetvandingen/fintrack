@@ -9,7 +9,6 @@ class TransactionsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Flash');
         $this->loadModel('Accounts');
     }
 
@@ -200,10 +199,6 @@ class TransactionsController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($user['id'] === 9){
-             return true;
-        }
-
         $action = $this->request->getParam('action');
         if (in_array($action, ['index', 'add', 'upload', 'assign', 'overview', 'api'])) {
             // These actions are always allowed for logged in users

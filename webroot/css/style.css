@@ -553,3 +553,7 @@ td.overflow:hover {
 .sortable {
     cursor:pointer;
 }
+
+.error-message {
+    color:red;
+}

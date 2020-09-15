@@ -147,10 +147,6 @@ class UsersController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($user['id'] === 9){
-             return true;
-        }
-
         $action = $this->request->getParam('action');
         if ($action === 'index' || $action === 'add') {
             return true;

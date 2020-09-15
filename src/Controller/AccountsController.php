@@ -102,10 +102,6 @@ class AccountsController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($user['id'] === 9){
-             return true;
-        }
-
         $action = $this->request->getParam('action');
         // The index and add action are always allowed to logged in users.
         if (in_array($action, ['index', 'add'])){

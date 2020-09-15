@@ -6,6 +6,11 @@ Easy overview of how much you spend on food, transport, etc.
 ### Design
 Model View Control design is used to develop this application.
 Basic functions for MVC are add, view, edit and delete.
+The following measures have been made in terms of security:
+- Server enforces https
+- Cross Site Request Forgery (CSRF) which checks for https and form tampering (on by default)
+- Every controller page has an authorize function to determine if a user is authorized
+
 
 #### Use cases
 Title | Precondition | Postcondition | Story | Exceptions

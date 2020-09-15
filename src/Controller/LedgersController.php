@@ -107,10 +107,6 @@ class LedgersController extends AppController
 
     public function isAuthorized($user)
     {
-        if ($user['id'] === 9){
-             return true;
-        }
-
         $action = $this->request->getParam('action');
         if (in_array($action, ['index', 'add'])) {
             // index and add are always allowed for logged in users
